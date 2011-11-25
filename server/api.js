@@ -18,7 +18,19 @@ var groupInformationsResponseFromObject = function(group) {
         "name": group.name,
         "description": group.description,
         "creatorId": group.creatorId,
-        "created_at": group.createdAt
+        "createdAt": group.createdAt
+    }
+}
+
+var torrentInformationsResponseFromObject = function(torrent) {
+    return {
+        "id": torrent.id,
+        "name": torrent.name,
+        "description": torrent.description,
+        "url": torrent.url,
+        "groupId": torrent.GroupId,
+        "creatorId": torrent.creatorId,
+        "createdAt": torrent.createdAt
     }
 }
 
@@ -167,10 +179,17 @@ exports.groups = function(req, res) {
                                     }
                                 }
                                 
+                                for(var j = 0; j < torrents.length; j++) {
+                                    if(torrents[j].GroupId == groups[i].id) {
+                                        groupTorrents.push(torrentInformationsResponseFromObject(torrents[j]));
+                                    }
+                                }
+                                
                                 chainedGroup['users'] = groupUsers;
                                 chainedGroup['torrents'] = groupTorrents;
                                 chainedGroups.push(chainedGroup);
                             }
+                            
                             return res.send(generateResponseString(true, null, { 'groups': chainedGroups }));
                         });
                     });
@@ -181,3 +200,27 @@ exports.groups = function(req, res) {
         return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
     });
 };
+
+exports.addTorrentToGroup = function(req, res) {
+    if(!req.param('group_id') || !req.param('name') || !req.param('url')) {
+        return res.send(generateResponseString(false, "Missing parameters.", {}));
+    } else {
+        database.groups.find({ where: { 'id': req.param('group_id') } }).on('success', function(group){
+            if(!group) {
+                return res.send(generateResponseString(false, "Group not found.", {}));
+            } else {
+                database.torrents.build({ 
+                GroupId: group.id, 
+                name: req.param('name'), 
+                description: req.param('description'), 
+                url: req.param('url'), 
+                creatorId: req.user.id }).save().on('success', function(torrent){
+                    return res.send(generateResponseString(true, null, { 'torrent': torrentInformationsResponseFromObject(torrent) }));
+                });
+            }
+        }).on('failure', function(error) {
+            return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
+        });
+    }
+}
+
