@@ -122,11 +122,11 @@ exports.addUserToGroup = function(req, res) {
     } else {
         database.users.find({ where: { email: req.param('user_email') } }).on('success', function(user){
             if(!user) {
-                return res.send(generateResponseString(false, "No user found with that e-mail.", {}));
+                return res.send(generateResponseString(false, "No user found.", {}));
             } else {
                 database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
                     if(!group) {
-                        return res.send(generateResponseString(false, "No group found with that id.", {}));
+                        return res.send(generateResponseString(false, "No group found.", {}));
                     } else {
                         if(group.creatorId == req.user.id) {
                             database.joinedGroups.build({ UserId: user.id, groupId: group.id }).save().on('success', function(joinedGroup){
@@ -144,57 +144,61 @@ exports.addUserToGroup = function(req, res) {
 
 exports.groups = function(req, res) {
     database.users.find({ where: { email: req.param('email') } }).on('success', function(user){
-        database.joinedGroups.findAll({ where: { UserId: user.id } }).on('success', function(joinedGroups){
-            var groupsIds = new Array();
-            for(var i = 0; i < joinedGroups.length; i++) {
-                groupsIds.push(joinedGroups[i].groupId);
-            }
+        database.joinedGroups.findAll({ where: { UserId: user.id } }).on('success', function(joinedGroups){            
+            if(joinedGroups.length == 0) {
+                return res.send(generateResponseString(true, null, { 'groups': [] }));
+            } else {
+                var groupsIds = new Array();
+                for(var i = 0; i < joinedGroups.length; i++) {
+                    groupsIds.push(joinedGroups[i].groupId);
+                }
             
-            database.groups.findAll({ where: { id: groupsIds } }).on('success', function(groups){
-                database.torrents.findAll({ where: { GroupId: groupsIds } }).on('success', function(torrents){
-                    database.joinedGroups.findAll({ where: { groupId: groupsIds } }).on('success', function(userJoinedGroups){
-                        var usersIds = new Array();
-                        for(var i = 0; i < userJoinedGroups.length; i++) {
-                            usersIds.push(userJoinedGroups[i].UserId);
-                        }
-                        
-                        database.users.findAll({ where: { id: usersIds } }).on('success', function(users){
-                            var chainedGroups = new Array();
-                            
-                            for(var i = 0; i < groups.length; i++) {
-                                var chainedGroup = groupInformationsResponseFromObject(groups[i]);
-                                var groupUsers = new Array();
-                                var groupTorrents = new Array();
-                                
-                                for(var j = 0; j < users.length; j++) {
-                                    var userIsMember = false;
-                                    for(var k = 0; k < userJoinedGroups.length; k++) {
-                                        if(userJoinedGroups[k].UserId == users[j].id && userJoinedGroups[k].groupId == groups[i].id) {
-                                            userIsMember = true;
-                                            break;
-                                        }
-                                    }
-                                    if(userIsMember) {
-                                        groupUsers.push(userInformationsResponseFromObject(users[j]));
-                                    }
-                                }
-                                
-                                for(var j = 0; j < torrents.length; j++) {
-                                    if(torrents[j].GroupId == groups[i].id) {
-                                        groupTorrents.push(torrentInformationsResponseFromObject(torrents[j]));
-                                    }
-                                }
-                                
-                                chainedGroup['users'] = groupUsers;
-                                chainedGroup['torrents'] = groupTorrents;
-                                chainedGroups.push(chainedGroup);
+                database.groups.findAll({ where: { id: groupsIds } }).on('success', function(groups){
+                    database.torrents.findAll({ where: { GroupId: groupsIds } }).on('success', function(torrents){
+                        database.joinedGroups.findAll({ where: { groupId: groupsIds } }).on('success', function(usersJoinedGroups){
+                            var usersIds = new Array();
+                            for(var i = 0; i < usersJoinedGroups.length; i++) {
+                                usersIds.push(usersJoinedGroups[i].UserId);
                             }
                             
-                            return res.send(generateResponseString(true, null, { 'groups': chainedGroups }));
+                            database.users.findAll({ where: { id: usersIds } }).on('success', function(users){
+                                var chainedGroups = new Array();
+                                
+                                for(var i = 0; i < groups.length; i++) {
+                                    var chainedGroup = groupInformationsResponseFromObject(groups[i]);
+                                    var groupUsers = new Array();
+                                    var groupTorrents = new Array();
+                                    
+                                    for(var j = 0; j < users.length; j++) {
+                                        var userIsMember = false;
+                                        for(var k = 0; k < usersJoinedGroups.length; k++) {
+                                            if(usersJoinedGroups[k].UserId == users[j].id && usersJoinedGroups[k].groupId == groups[i].id) {
+                                                userIsMember = true;
+                                                break;
+                                            }
+                                        }
+                                        if(userIsMember) {
+                                            groupUsers.push(userInformationsResponseFromObject(users[j]));
+                                        }
+                                    }
+                                    
+                                    for(var j = 0; j < torrents.length; j++) {
+                                        if(torrents[j].GroupId == groups[i].id) {
+                                            groupTorrents.push(torrentInformationsResponseFromObject(torrents[j]));
+                                        }
+                                    }
+                                    
+                                    chainedGroup['users'] = groupUsers;
+                                    chainedGroup['torrents'] = groupTorrents;
+                                    chainedGroups.push(chainedGroup);
+                                }
+                                
+                                return res.send(generateResponseString(true, null, { 'groups': chainedGroups }));
+                            });
                         });
                     });
                 });
-            });
+            }
         })
     }).on('failure', function(error) {
         return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
@@ -222,5 +226,37 @@ exports.addTorrentToGroup = function(req, res) {
             return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
         });
     }
-}
+};
+
+exports.deleteGroup = function(req, res) {
+    if(!req.param('group_id')) {
+        return res.send(generateResponseString(false, "Missing parameters.", {}));
+    } else {
+        database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
+            if(!group) {
+                return res.send(generateResponseString(false, "No group found.", {}));
+            } else {
+                if(group.creatorId == req.user.id) {
+                    group.destroy().on('success', function(){
+                        database.joinedGroups.findAll({ where: { 'groupId': group.id } }).on('success', function(joinedUsers){
+                            for(var i = 0; i < joinedUsers.length; i++) {
+                                joinedUsers[i].destroy(); // removes user from group (destroyed)
+                            }
+                            database.torrents.findAll({ where: { 'GroupId': group.id } }).on('success', function(torrents){
+                                for(var i = 0; i < torrents.length; i++) {
+                                    torrents[i].destroy(); // removes torrents from group (destroyed)
+                                }
+                                return res.send(generateResponseString(true, null, {}));
+                            });
+                        })
+                    });
+                } else {
+                    return res.send(generateResponseString(false, "You are not the creator of that group.", {}));
+                }
+            }
+        }).on('failure', function(error) {
+            return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
+        });
+    }
+};
 
