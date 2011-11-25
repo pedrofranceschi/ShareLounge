@@ -122,11 +122,11 @@ exports.addUserToGroup = function(req, res) {
     } else {
         database.users.find({ where: { email: req.param('user_email') } }).on('success', function(user){
             if(!user) {
-                return res.send(generateResponseString(false, "No user found.", {}));
+                return res.send(generateResponseString(false, "User not found.", {}));
             } else {
                 database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
                     if(!group) {
-                        return res.send(generateResponseString(false, "No group found.", {}));
+                        return res.send(generateResponseString(false, "Group not found.", {}));
                     } else {
                         if(group.creatorId == req.user.id) {
                             database.joinedGroups.build({ UserId: user.id, groupId: group.id }).save().on('success', function(joinedGroup){
@@ -211,16 +211,22 @@ exports.addTorrentToGroup = function(req, res) {
     } else {
         database.groups.find({ where: { 'id': req.param('group_id') } }).on('success', function(group){
             if(!group) {
-                return res.send(generateResponseString(false, "No group found.", {}));
+                return res.send(generateResponseString(false, "Group not found.", {}));
             } else {
-                database.torrents.build({ 
-                GroupId: group.id, 
-                name: req.param('name'), 
-                description: req.param('description'), 
-                url: req.param('url'), 
-                creatorId: req.user.id }).save().on('success', function(torrent){
-                    return res.send(generateResponseString(true, null, { 'torrent': torrentInformationsResponseFromObject(torrent) }));
-                });
+                database.joinedGroups.find({ where: { UserId: req.user.id, groupId: group.id } }).on('success', function(joinedGroup){
+                    if(!joinedGroup) {
+                        return res.send(generateResponseString(false, "You are not a member of the group.", {}));
+                    } else {
+                        database.torrents.build({ 
+                        GroupId: group.id, 
+                        name: req.param('name'), 
+                        description: req.param('description'), 
+                        url: req.param('url'), 
+                        creatorId: req.user.id }).save().on('success', function(torrent){
+                            return res.send(generateResponseString(true, null, { 'torrent': torrentInformationsResponseFromObject(torrent) }));
+                        });
+                    }
+                })
             }
         }).on('failure', function(error) {
             return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
@@ -234,7 +240,7 @@ exports.deleteGroup = function(req, res) {
     } else {
         database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
             if(!group) {
-                return res.send(generateResponseString(false, "No group found.", {}));
+                return res.send(generateResponseString(false, "Group not found.", {}));
             } else {
                 if(group.creatorId == req.user.id) {
                     group.destroy().on('success', function(){
@@ -266,7 +272,7 @@ exports.deleteUserFromGroup = function(req, res) {
     } else {
         database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
             if(!group) {
-                return res.send(generateResponseString(false, "No group found.", {}));
+                return res.send(generateResponseString(false, "Group not found.", {}));
             } else {
                 if(group.creatorId == req.user.id) {
                     var userQuery;
@@ -277,7 +283,7 @@ exports.deleteUserFromGroup = function(req, res) {
                     }
                     database.users.find({ where: userQuery }).on('success', function(user){
                         if(!user) {
-                            return res.send(generateResponseString(false, "No user found.", {}));
+                            return res.send(generateResponseString(false, "User not found.", {}));
                         } else {
                             database.joinedGroups.find({ where: { 'UserId': user.id, 'groupId': group.id } }).on('success', function(joinedGroup){
                                 joinedGroup.destroy().on('success', function(){
@@ -292,6 +298,38 @@ exports.deleteUserFromGroup = function(req, res) {
             }
         }).on('failure', function(error) {
             return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
+        });
+    }
+};
+
+exports.deleteTorrentFromGroup = function(req, res) {
+    if(!req.param('group_id') || !req.param('torrent_id')) {
+        return res.send(generateResponseString(false, "Missing parameters.", {}));
+    } else{
+        database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
+            if(!group) {
+                return res.send(generateResponseString(false, "Group not found.", {}));
+            } else {
+                database.joinedGroups.find({ where: { UserId: req.user.id, groupId: group.id } }).on('success', function(joinedGroup){
+                    if(!joinedGroup) {
+                        return res.send(generateResponseString(false, "You are not a member of the group.", {}));
+                    } else {
+                        database.torrents.find({ where: { id: req.param('torrent_id') } }).on('success', function(torrent){
+                            if(!torrent) {
+                                return res.send(generateResponseString(false, "Torrent not found.", {}));
+                            } else {
+                                if(torrent.creatorId == req.user.id || group.creatorId == req.user.id) {
+                                    torrent.destroy().on('success', function(){
+                                        return res.send(generateResponseString(true, null, {}));
+                                    });
+                                } else {
+                                    return res.send(generateResponseString(false, "You are not the creator of that torrent.", {}));
+                                }
+                            }
+                        });
+                    }
+                });
+            }
         });
     }
 };
