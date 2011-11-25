@@ -13,6 +13,7 @@ app.get('/', function(req, res){
 app.post('/api/verify_credentials', api.verifyCredentials);
 app.post('/api/create_user', api.createUser);
 app.post('/api/create_group', api.verifyCredentialsFilter, api.createGroup);
+app.post('/api/add_user_to_group', api.verifyCredentialsFilter, api.addUserToGroup);
 
 app.listen(3000);
 console.log("Server on port %s", app.address().port);

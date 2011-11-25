@@ -89,13 +89,42 @@ exports.createUser = function(req, res) {
 };
 
 exports.createGroup = function(req, res) {
-    if(!req.param('name')) { // email and password are already handled in filter
+    if(!req.param('name')) {
         return res.send(generateResponseString(false, "Missing parameters.", {}));
     } else {
         database.groups.build({ name: req.param('name'), description: req.param('description'), creatorId: req.user.id }).save().on('success', function(group){
-            return res.send(generateResponseString(true, null, { 'group': groupInformationsResponseFromObject(group) }));
+            database.joinedGroups.build({ UserId: req.user.id, groupId: group.id }).save().on('success', function(joinedGroup){
+                return res.send(generateResponseString(true, null, { 'group': groupInformationsResponseFromObject(group) }));
+            });
         }).on('failure', function(error) {
             return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
+        });
+    }
+};
+
+
+exports.addUserToGroup = function(req, res) {
+    if(!req.param('group_id') || !req.param('user_email')) {
+        return res.send(generateResponseString(false, "Missing parameters.", {}));
+    } else {
+        database.users.find({ where: { email: req.param('user_email') } }).on('success', function(user){
+            if(!user) {
+                return res.send(generateResponseString(false, "No user found with that e-mail.", {}));
+            } else {
+                database.groups.find({ where: { id: req.param('group_id') } }).on('success', function(group){
+                    if(!group) {
+                        return res.send(generateResponseString(false, "No group found with that id.", {}));
+                    } else {
+                        if(group.creatorId == req.user.id) {
+                            database.joinedGroups.build({ UserId: user.id, groupId: group.id }).save().on('success', function(joinedGroup){
+                                return res.send(generateResponseString(true, null, { 'user': userInformationsResponseFromObject(user), 'group': groupInformationsResponseFromObject(group) }));
+                            });
+                        } else {
+                            return res.send(generateResponseString(false, "You are not the creator of that group.", {}));
+                        }
+                    }
+                });
+            }
         });
     }
 };
