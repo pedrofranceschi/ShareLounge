@@ -17,7 +17,8 @@ var groupInformationsResponseFromObject = function(group) {
         "id": group.id,
         "name": group.name,
         "description": group.description,
-        "creatorId": group.creatorId
+        "creatorId": group.creatorId,
+        "created_at": group.createdAt
     }
 }
 
@@ -127,4 +128,56 @@ exports.addUserToGroup = function(req, res) {
             }
         });
     }
+};
+
+exports.groups = function(req, res) {
+    database.users.find({ where: { email: req.param('email') } }).on('success', function(user){
+        database.joinedGroups.findAll({ where: { UserId: user.id } }).on('success', function(joinedGroups){
+            var groupsIds = new Array();
+            for(var i = 0; i < joinedGroups.length; i++) {
+                groupsIds.push(joinedGroups[i].groupId);
+            }
+            
+            database.groups.findAll({ where: { id: groupsIds } }).on('success', function(groups){
+                database.torrents.findAll({ where: { GroupId: groupsIds } }).on('success', function(torrents){
+                    database.joinedGroups.findAll({ where: { groupId: groupsIds } }).on('success', function(userJoinedGroups){
+                        var usersIds = new Array();
+                        for(var i = 0; i < userJoinedGroups.length; i++) {
+                            usersIds.push(userJoinedGroups[i].UserId);
+                        }
+                        
+                        database.users.findAll({ where: { id: usersIds } }).on('success', function(users){
+                            var chainedGroups = new Array();
+                            
+                            for(var i = 0; i < groups.length; i++) {
+                                var chainedGroup = groupInformationsResponseFromObject(groups[i]);
+                                var groupUsers = new Array();
+                                var groupTorrents = new Array();
+                                
+                                for(var j = 0; j < users.length; j++) {
+                                    var userIsMember = false;
+                                    for(var k = 0; k < userJoinedGroups.length; k++) {
+                                        if(userJoinedGroups[k].UserId == users[j].id && userJoinedGroups[k].groupId == groups[i].id) {
+                                            userIsMember = true;
+                                            break;
+                                        }
+                                    }
+                                    if(userIsMember) {
+                                        groupUsers.push(userInformationsResponseFromObject(users[j]));
+                                    }
+                                }
+                                
+                                chainedGroup['users'] = groupUsers;
+                                chainedGroup['torrents'] = groupTorrents;
+                                chainedGroups.push(chainedGroup);
+                            }
+                            return res.send(generateResponseString(true, null, { 'groups': chainedGroups }));
+                        });
+                    });
+                });
+            });
+        })
+    }).on('failure', function(error) {
+        return res.send(generateResponseString(false, "Internal error (" + error.toString() + ").", {}));
+    });
 };

@@ -41,3 +41,4 @@ sequelize.sync().on('success', function() {
 exports.users = User;
 exports.groups = Group;
 exports.joinedGroups = JoinedGroup;
+exports.torrents = Torrent;
