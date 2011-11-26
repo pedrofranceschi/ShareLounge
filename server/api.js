@@ -67,7 +67,6 @@ exports.verifyCredentialsFilter = function (req, res, next) {
 // API methods
     
 exports.verifyCredentials = function(req, res) {
-    console.log(sys.inspect(req.params));
     if(!req.param('email') || !req.param('password')) {
         return res.send(generateResponseString(false, "Missing parameters.", {}));
     } else {
