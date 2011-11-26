@@ -2,6 +2,10 @@
 //  SLServerRequests.m
 //  ShareLounge
 //
+//  This class handles all the communication between the 
+//  web requests' response, persistency and user interface,
+//  to make the web requests as simple as possible.
+//
 //  Created by iMac on 25/11/11.
 //  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
 //
@@ -20,6 +24,8 @@
     return self;
 }
 
+// Request helpers
+
 - (NSURL *)_requestURLForAPIMethod:(NSString *)method {
     return [NSURL URLWithString:[NSString stringWithFormat:@"%@%@", kAPIURL, method]];
 }
@@ -34,7 +40,7 @@
     return [NSError errorWithDomain:[responseObject objectForKey:@"message"] code:-3 userInfo:nil];
 }
 
-// Verify Credentials
+// Verify Credentials (/api/verify_credentials)
 
 - (void)verifyCredentialsWithEmail:(NSString *)email password:(NSString *)password {
     [serverConnection setSuccessCallback:@selector(_verifyCredentialsDidReceiveResponse:)];
@@ -45,7 +51,9 @@
 }
 
 - (void)_verifyCredentialsDidReceiveResponse:(NSDictionary *)response {
-    if([[response objectForKey:@"success"] boolValue]) {
+    NSLog(@"%s received response", _cmd);
+    if([[response objectForKey:@"success"] boolValue] && [response objectForKey:@"user"]) {
+        [SLSessionManager saveSessionWithInformations:[response objectForKey:@"user"]];
         [self _performSelectorIfDelegateRespondsToSelector:kVerifyCredentialsCallback withObject:nil withObject:response];
     } else {
         [self _performSelectorIfDelegateRespondsToSelector:kVerifyCredentialsCallback withObject:[self _errorFromResponseObject:response] withObject:response];
@@ -53,6 +61,7 @@
 }
 
 - (void)_verifyCredentialsDidFailWithError:(NSError *)error {
+    NSLog(@"%s fuuuu ", _cmd);
     [self _performSelectorIfDelegateRespondsToSelector:kVerifyCredentialsCallback withObject:error withObject:nil];
 }
 

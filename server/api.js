@@ -322,7 +322,7 @@ exports.deleteTorrentFromGroup = function(req, res) {
                                         return res.send(generateResponseString(true, null, {}));
                                     });
                                 } else {
-                                    return res.send(generateResponseString(false, "You are not the creator of that torrent.", {}));
+                                    return res.send(generateResponseString(false, "You are not the creator of the torrent.", {}));
                                 }
                             }
                         });

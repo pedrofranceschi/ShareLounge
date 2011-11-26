@@ -13,7 +13,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "10CD869D14805FE4000FDB68"
+               BlueprintIdentifier = "109B59DF1481577E00B3662B"
                BuildableName = "ShareLounge.app"
                BlueprintName = "ShareLounge"
                ReferencedContainer = "container:ShareLounge.xcodeproj">
@@ -31,7 +31,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "10CD869D14805FE4000FDB68"
+            BlueprintIdentifier = "109B59DF1481577E00B3662B"
             BuildableName = "ShareLounge.app"
             BlueprintName = "ShareLounge"
             ReferencedContainer = "container:ShareLounge.xcodeproj">
@@ -49,7 +49,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "10CD869D14805FE4000FDB68"
+            BlueprintIdentifier = "109B59DF1481577E00B3662B"
             BuildableName = "ShareLounge.app"
             BlueprintName = "ShareLounge"
             ReferencedContainer = "container:ShareLounge.xcodeproj">
@@ -67,7 +67,7 @@
       <BuildableProductRunnable>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "10CD869D14805FE4000FDB68"
+            BlueprintIdentifier = "109B59DF1481577E00B3662B"
             BuildableName = "ShareLounge.app"
             BlueprintName = "ShareLounge"
             ReferencedContainer = "container:ShareLounge.xcodeproj">

@@ -30,6 +30,7 @@
 }
 
 - (void)performRequestWithURL:(NSURL *)_requestURL content:(NSString *)_content parseResponse:(BOOL)_parseResponse {
+    receivedResponse = NO;
     requestURL = _requestURL;
     parseResponse = _parseResponse;
     
@@ -39,7 +40,8 @@
     
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 	
-	if(!connection) {
+	if(!connection && !receivedResponse) {
+        receivedResponse = YES;
 		[delegate performSelector:errorCallback withObject:[NSError errorWithDomain:@"Unable to start connection." code:-1 userInfo:nil]];
 	}
 }
@@ -59,24 +61,30 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[delegate performSelector:errorCallback withObject:error];
+    if(!receivedResponse) {
+        receivedResponse = YES;
+	    [delegate performSelector:errorCallback withObject:[NSError errorWithDomain:@"Unable to connect to server." code:-1 userInfo:nil]];
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
 	NSString *responseString = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
     
-    if(parseResponse) {
-        NSError *parseError = nil;
-        SBJsonParser *parser = [SBJsonParser new];
-        id jsonObject = [parser objectWithString:responseString error:&parseError];
-        
-        if(parseError) {
-            [delegate performSelector:errorCallback withObject:[NSError errorWithDomain:@"Invalid server response." code:-2 userInfo:nil]];
+    if(!receivedResponse) {
+        receivedResponse = YES;
+        if(parseResponse) {
+            NSError *parseError = nil;
+            SBJsonParser *parser = [SBJsonParser new];
+            id jsonObject = [parser objectWithString:responseString error:&parseError];
+            
+            if(parseError) {
+                [delegate performSelector:errorCallback withObject:[NSError errorWithDomain:@"Invalid server response." code:-2 userInfo:nil]];
+            } else {
+                [delegate performSelector:successCallback withObject:jsonObject];
+            }
         } else {
-            [delegate performSelector:successCallback withObject:jsonObject];
+            [delegate performSelector:successCallback withObject:responseString];
         }
-    } else {
-        [delegate performSelector:successCallback withObject:responseString];
     }
 }
 

@@ -1,0 +1,21 @@
+//
+//  SLPersistencyManager.h
+//  ShareLounge
+//
+//  Created by iMac on 26/11/11.
+//  Copyright (c) 2011 __MyCompanyName__. All rights reserved.
+//
+
+#import <Foundation/Foundation.h>
+
+@interface SLPersistencyManager : NSObject {
+    NSMutableDictionary *persistencyData;
+}
+
++ (SLPersistencyManager *)sharedInstance;
+- (id)objectForKey:(NSString *)_key;
+- (void)setObject:(id)_object forKey:(NSString *)_key;
+- (void)removeObjectForKey:(NSString *)_key;
+- (void)save;
+
+@end

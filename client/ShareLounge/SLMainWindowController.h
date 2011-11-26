@@ -1,5 +1,5 @@
 //
-//  main.m
+//  SLMainWindowController.h
 //  ShareLounge
 //
 //  Created by iMac on 26/11/11.
@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-int main(int argc, char *argv[])
-{
-    return NSApplicationMain(argc, (const char **)argv);
-}
+@interface SLMainWindowController : NSWindowController
+
+@end

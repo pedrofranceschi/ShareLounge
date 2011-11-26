@@ -18,6 +18,7 @@
 @end
 
 @interface SLServerConnection : NSObject {
+    BOOL receivedResponse;
     BOOL parseResponse;
     NSURL *requestURL;
     NSMutableData *receivedData;
