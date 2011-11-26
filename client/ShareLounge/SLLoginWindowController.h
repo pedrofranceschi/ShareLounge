@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SLServerConnection.h"
+#import "SLServerRequests.h"
 
 @interface SLLoginWindowController : NSObject <NSApplicationDelegate> {
     IBOutlet NSTextField *emailField;

@@ -8,10 +8,9 @@
 
 #import "SLServerConnection.h"
 
-#define kSuccessCallback @selector(serverConnection:didReceiveResponse:)
-#define kErrorCallback @selector(serverConnection:didFailWithError:)
-
 @implementation SLServerConnection
+
+@synthesize successCallback, errorCallback;
 
 - (id)initWithDelegate:(<SLServerConnectionDelegate>)_delegate {
     delegate = _delegate;
@@ -41,7 +40,7 @@
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:YES];
 	
 	if(!connection) {
-		[delegate performSelector:kErrorCallback withObject:self withObject:[NSError errorWithDomain:@"Unable to start connection." code:-1 userInfo:nil]];
+		[delegate performSelector:errorCallback withObject:[NSError errorWithDomain:@"Unable to start connection." code:-1 userInfo:nil]];
 	}
 }
 
@@ -60,7 +59,7 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-	[delegate performSelector:kErrorCallback withObject:self withObject:error];
+	[delegate performSelector:errorCallback withObject:error];
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -72,12 +71,12 @@
         id jsonObject = [parser objectWithString:responseString error:&parseError];
         
         if(parseError) {
-            [delegate performSelector:kErrorCallback withObject:self withObject:[NSError errorWithDomain:@"Invalid server response." code:-2 userInfo:nil]];
+            [delegate performSelector:errorCallback withObject:[NSError errorWithDomain:@"Invalid server response." code:-2 userInfo:nil]];
         } else {
-            [delegate performSelector:kSuccessCallback withObject:jsonObject];
+            [delegate performSelector:successCallback withObject:jsonObject];
         }
     } else {
-        [delegate performSelector:kSuccessCallback withObject:responseString];
+        [delegate performSelector:successCallback withObject:responseString];
     }
 }
 

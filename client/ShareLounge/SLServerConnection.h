@@ -11,9 +11,9 @@
 
 @protocol SLServerConnectionDelegate
 
-@required
-- (void)serverConnection:(id)serverConnection didReceiveResponse:(id)response;
-- (void)serverConnection:(id)serverConnection didFailWithError:(NSError *)error;
+// @required
+// - (void)serverConnection:(id)serverConnection didReceiveResponse:(id)response;
+// - (void)serverConnection:(id)serverConnection didFailWithError:(NSError *)error;
 
 @end
 
@@ -21,6 +21,7 @@
     BOOL parseResponse;
     NSURL *requestURL;
     NSMutableData *receivedData;
+    SEL successCallback, errorCallback;
     id delegate;
 }
 
@@ -29,5 +30,6 @@
 - (void)performRequestWithURL:(NSURL *)_requestURL content:(NSString *)_content parseResponse:(BOOL)_parseResponse;
 
 @property (readonly) NSURL *requestURL;
+@property (assign) SEL successCallback, errorCallback;
 
 @end

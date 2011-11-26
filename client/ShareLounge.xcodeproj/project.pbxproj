@@ -26,6 +26,7 @@
 		10CD86F414807759000FDB68 /* SBJsonTokeniser.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD86E614807759000FDB68 /* SBJsonTokeniser.m */; };
 		10CD86F514807759000FDB68 /* SBJsonUTF8Stream.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD86E814807759000FDB68 /* SBJsonUTF8Stream.m */; };
 		10CD86F614807759000FDB68 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD86EA14807759000FDB68 /* SBJsonWriter.m */; };
+		10CD86F914807EBA000FDB68 /* SLServerRequests.m in Sources */ = {isa = PBXBuildFile; fileRef = 10CD86F814807EBA000FDB68 /* SLServerRequests.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -69,6 +70,8 @@
 		10CD86E814807759000FDB68 /* SBJsonUTF8Stream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonUTF8Stream.m; sourceTree = "<group>"; };
 		10CD86E914807759000FDB68 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		10CD86EA14807759000FDB68 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		10CD86F714807EBA000FDB68 /* SLServerRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLServerRequests.h; sourceTree = "<group>"; };
+		10CD86F814807EBA000FDB68 /* SLServerRequests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLServerRequests.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -147,6 +150,8 @@
 			children = (
 				10CD86CD14806D0F000FDB68 /* SLServerConnection.h */,
 				10CD86CE14806D0F000FDB68 /* SLServerConnection.m */,
+				10CD86F714807EBA000FDB68 /* SLServerRequests.h */,
+				10CD86F814807EBA000FDB68 /* SLServerRequests.m */,
 			);
 			name = "Back-end";
 			sourceTree = "<group>";
@@ -279,6 +284,7 @@
 				10CD86F414807759000FDB68 /* SBJsonTokeniser.m in Sources */,
 				10CD86F514807759000FDB68 /* SBJsonUTF8Stream.m in Sources */,
 				10CD86F614807759000FDB68 /* SBJsonWriter.m in Sources */,
+				10CD86F914807EBA000FDB68 /* SLServerRequests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
