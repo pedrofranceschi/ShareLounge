@@ -51,7 +51,6 @@
 }
 
 - (void)_verifyCredentialsDidReceiveResponse:(NSDictionary *)response {
-    NSLog(@"%s received response", _cmd);
     if([[response objectForKey:@"success"] boolValue] && [response objectForKey:@"user"]) {
         [SLSessionManager saveSessionWithInformations:[response objectForKey:@"user"]];
         [self _performSelectorIfDelegateRespondsToSelector:kVerifyCredentialsCallback withObject:nil withObject:response];
@@ -61,7 +60,6 @@
 }
 
 - (void)_verifyCredentialsDidFailWithError:(NSError *)error {
-    NSLog(@"%s fuuuu ", _cmd);
     [self _performSelectorIfDelegateRespondsToSelector:kVerifyCredentialsCallback withObject:error withObject:nil];
 }
 
