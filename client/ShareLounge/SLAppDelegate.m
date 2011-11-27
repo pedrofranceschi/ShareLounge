@@ -10,11 +10,10 @@
 
 @implementation SLAppDelegate
 
-// @synthesize window = _window;
-
 - (id)init {
-    loginWindowController = [[SLLoginWindowController alloc] init];
+    loginWindowController = [[SLLoginWindowController alloc] init];    
     mainWindowController = [[SLMainWindowController alloc] init];
+    
     return self;
 }
 
@@ -23,18 +22,24 @@
     if([SLSessionManager hasSavedSession]) {
         [self presentMainWindow];
     } else {
-        [[loginWindowController window] makeKeyAndOrderFront:self];
+        [[loginWindowController window] orderFront:self];
+    }
+}
+
+- (void)closeAllWindows {
+    for(NSWindow *window in [[NSApplication sharedApplication] windows]) {
+        [window orderOut:self];
     }
 }
 
 - (IBAction)menuLogoutPressed:(id)sender {
     [SLSessionManager destroySession];
-    NSLog(@"%s window: %@", _cmd, [mainWindowController window]);
-    [[mainWindowController window] orderOut:self];
+    [self closeAllWindows];
     [[loginWindowController window] makeKeyAndOrderFront:self];
 }
 
 - (void)presentMainWindow {
+    [self closeAllWindows];
     [[mainWindowController window] makeKeyAndOrderFront:self];
 }
 

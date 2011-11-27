@@ -33,11 +33,8 @@
     if(_error) {
         [SLAlertSheet alertSheetWithTitle:@"Unable to Login" description:[_error domain] window:self.window];
     } else {
-        [[self window] orderOut:nil];
         [(SLAppDelegate *)[NSApp delegate] presentMainWindow];
-        // SLMainWindowController *mainWindowController = [[SLMainWindowController alloc] initWithWindowNibName:@"MainWindow"];
-        // [NSBundle loadNibNamed:@"MainWindow" owner:self];
-        // [mainWindowController showWindow:nil];
+        [[NSApp mainWindow] makeKeyWindow];
     }
 }
 
