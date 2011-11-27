@@ -7,7 +7,16 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SLServerRequests.h"
 
-@interface SLMainWindowController : NSWindowController
+@interface SLMainWindowController : NSWindowController {
+    IBOutlet NSTableView *groupsTableView;
+    NSArray *groups;
+    SLServerRequests *serverRequests;
+}
+
+- (void)updateInformations;
+
+@property (assign) IBOutlet NSTableView *groupsTableView;
 
 @end

@@ -18,11 +18,13 @@
 @end
 
 @interface SLServerRequests : NSObject {
+    NSString *sessionPassword;
     SLServerConnection *serverConnection;
     id delegate;
 }
 
 - (id)initWithDelegate:(id)_delegate;
 - (void)verifyCredentialsWithEmail:(NSString *)email password:(NSString *)password;
+- (void)getGroups;
 
 @end

@@ -22,7 +22,7 @@
     if([SLSessionManager hasSavedSession]) {
         [self presentMainWindow];
     } else {
-        [[loginWindowController window] orderFront:self];
+        [[loginWindowController window] makeKeyAndOrderFront:self];
     }
 }
 
@@ -43,6 +43,9 @@
 
 - (void)presentMainWindow {
     [self closeAllWindows];
+    if(![mainWindowController window]) {
+        mainWindowController = [[SLMainWindowController alloc] init];
+    }
     [[mainWindowController window] makeKeyAndOrderFront:self];
 }
 
