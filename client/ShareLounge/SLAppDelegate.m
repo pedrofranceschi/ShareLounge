@@ -33,9 +33,12 @@
 }
 
 - (IBAction)menuLogoutPressed:(id)sender {
-    [SLSessionManager destroySession];
-    [self closeAllWindows];
-    [[loginWindowController window] makeKeyAndOrderFront:self];
+    if([SLSessionManager hasSavedSession]) {
+        [SLSessionManager destroySession];
+        [self closeAllWindows];
+        [[mainWindowController window] orderOut:self];
+        [[loginWindowController window] makeKeyAndOrderFront:self];
+    }
 }
 
 - (void)presentMainWindow {

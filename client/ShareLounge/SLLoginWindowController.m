@@ -34,7 +34,6 @@
         [SLAlertSheet alertSheetWithTitle:@"Unable to Login" description:[_error domain] window:self.window];
     } else {
         [(SLAppDelegate *)[NSApp delegate] presentMainWindow];
-        [[NSApp mainWindow] makeKeyWindow];
     }
 }
 
