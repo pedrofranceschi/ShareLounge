@@ -40,6 +40,10 @@ static SLPersistencyManager *sharedInstance;
     [persistencyData removeObjectForKey:_key];
 }
 
+- (void)destroy {
+    persistencyData = [[NSMutableDictionary alloc] init];
+}
+
 - (void)save {
     [NSUserDefaults resetStandardUserDefaults];
     [[NSUserDefaults standardUserDefaults] setObject:persistencyData forKey:@"persistencyData"];

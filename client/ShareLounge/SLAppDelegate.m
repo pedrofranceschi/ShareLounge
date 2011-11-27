@@ -11,8 +11,8 @@
 @implementation SLAppDelegate
 
 - (id)init {
-    loginWindowController = [[SLLoginWindowController alloc] init];    
-    mainWindowController = [[SLMainWindowController alloc] init];
+    loginWindowController = [[SLLoginWindowController alloc] initWithWindowNibName:@"LoginWindow"];    
+    mainWindowController = [[SLMainWindowController alloc] initWithWindowNibName:@"MainWindow"];
     
     return self;
 }
@@ -43,10 +43,8 @@
 
 - (void)presentMainWindow {
     [self closeAllWindows];
-    if(![mainWindowController window]) {
-        mainWindowController = [[SLMainWindowController alloc] init];
-    }
-    [[mainWindowController window] makeKeyAndOrderFront:self];
+    [[mainWindowController window] makeKeyAndOrderFront:nil];
+    [mainWindowController updateInformations];
 }
 
 @end

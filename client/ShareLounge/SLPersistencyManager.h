@@ -17,5 +17,6 @@
 - (void)setObject:(id)_object forKey:(NSString *)_key;
 - (void)removeObjectForKey:(NSString *)_key;
 - (void)save;
+- (void)destroy;
 
 @end

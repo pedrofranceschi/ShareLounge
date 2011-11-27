@@ -15,17 +15,16 @@
     return @"MainWindow";
 }
 
-- (id)init {
-    serverRequests = [[SLServerRequests alloc] initWithDelegate:self];
+- (id)initWithWindowNibName:(NSString *)nibName {
+    if(self = [super initWithWindowNibName:nibName]) {
+        serverRequests = [[SLServerRequests alloc] initWithDelegate:self];
+    }
+    
     return self;
 }
 
-- (void)windowDidLoad {
-    // NSLog(@"%s awakeFromNib ", _cmd, );
-    [self updateInformations];
-}
-
 - (void)updateInformations {
+    NSLog(@"%s UPDATING INFOS ", _cmd);
     [serverRequests getGroups];
 }
 

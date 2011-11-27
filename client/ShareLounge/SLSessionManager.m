@@ -19,7 +19,7 @@
 }
 
 + (void)destroySession {
-    [[SLPersistencyManager sharedInstance] removeObjectForKey:@"session"];
+    [[SLPersistencyManager sharedInstance] destroy];
     [[SLPersistencyManager sharedInstance] save];
 }
 

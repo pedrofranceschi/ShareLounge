@@ -46,7 +46,7 @@
 				<int key="NSWindowStyleMask">7</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{196, 240}, {310, 185}}</string>
-				<int key="NSWTFlags">544735232</int>
+				<int key="NSWTFlags">1618477056</int>
 				<string key="NSWindowTitle">ShareLounge</string>
 				<string key="NSWindowClass">NSWindow</string>
 				<nil key="NSViewClass"/>
@@ -195,7 +195,6 @@
 							<string key="NSFrame">{{151, 12}, {145, 32}}</string>
 							<reference key="NSSuperview" ref="1006"/>
 							<reference key="NSWindow"/>
-							<reference key="NSNextKeyView"/>
 							<string key="NSReuseIdentifierKey">_NS:687</string>
 							<bool key="NSEnabled">YES</bool>
 							<object class="NSButtonCell" key="NSCell" id="115657829">
