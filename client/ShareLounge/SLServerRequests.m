@@ -82,7 +82,7 @@
 - (void)_getGroupsDidReceiveResponse:(NSDictionary *)response {
     if([[response objectForKey:@"success"] boolValue] && [response objectForKey:@"groups"]) {
         NSArray *groupsInformations = [response objectForKey:@"groups"];
-        [[SLPersistencyManager sharedInstance] setObject:groupsInformations forKey:@"groups"];
+        [[SLPersistencyManager sharedInstance] setObject:groupsInformations forKey:@"groups" useKeyedArchive:YES];
         [[SLPersistencyManager sharedInstance] save];
         [self _performSelectorIfDelegateRespondsToSelector:kGetGroupsCallback withObject:nil withObject:groupsInformations];
     } else {

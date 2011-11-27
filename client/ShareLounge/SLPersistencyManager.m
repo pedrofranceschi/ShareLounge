@@ -32,8 +32,25 @@ static SLPersistencyManager *sharedInstance;
     return [persistencyData objectForKey:_key];
 }
 
+- (id)objectForKey:(NSString *)_key useKeyedArchive:(BOOL)_useKeyedArchive {
+    if(!_useKeyedArchive) {
+        return [self objectForKey:_key];
+    } else {
+        return [NSKeyedUnarchiver unarchiveObjectWithData:[self objectForKey:_key]];
+    }
+}
+
 - (void)setObject:(id)_object forKey:(NSString *)_key {
     [persistencyData setObject:_object forKey:_key];
+}
+
+- (void)setObject:(id)_object forKey:(NSString *)_key useKeyedArchive:(BOOL)_useKeyedArchive {
+    if(!_useKeyedArchive) {
+        [self setObject:_object forKey:_key];
+    } else {
+        id newObject = [NSKeyedArchiver archivedDataWithRootObject:_object];
+        [self setObject:newObject forKey:_key];
+    }
 }
 
 - (void)removeObjectForKey:(NSString *)_key {

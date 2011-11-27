@@ -14,7 +14,9 @@
 
 + (SLPersistencyManager *)sharedInstance;
 - (id)objectForKey:(NSString *)_key;
+- (id)objectForKey:(NSString *)_key useKeyedArchive:(BOOL)_useKeyedArchive;
 - (void)setObject:(id)_object forKey:(NSString *)_key;
+- (void)setObject:(id)_object forKey:(NSString *)_key useKeyedArchive:(BOOL)_useKeyedArchive;
 - (void)removeObjectForKey:(NSString *)_key;
 - (void)save;
 - (void)destroy;

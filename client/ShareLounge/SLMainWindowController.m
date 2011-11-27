@@ -32,6 +32,7 @@
 {
     NSLog(@"%s GOT GROUPS! error: %@", _cmd, _error);
     NSLog(@"%s RESPONSE: %@", _cmd, _response);
+    NSLog(@"%s Now from persistency: %@", _cmd, [[[SLPersistencyManager alloc] init] objectForKey:@"groups" useKeyedArchive:YES]);
 }
 
 // Groups table view methods
