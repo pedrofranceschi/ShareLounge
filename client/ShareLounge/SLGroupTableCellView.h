@@ -1,5 +1,5 @@
 //
-//  SLGroupsTableCellView.h
+//  SLGroupTableCellView.h
 //  ShareLounge
 //
 //  Created by iMac on 27/11/11.
@@ -7,8 +7,9 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "SLMainWindowController.h"
 
-@interface SLGroupsTableCellView : NSTableCellView {
+@interface SLGroupTableCellView : NSTableCellView {
     IBOutlet NSTextField *groupName, *torrentsCount, *usersCount;
 }
 

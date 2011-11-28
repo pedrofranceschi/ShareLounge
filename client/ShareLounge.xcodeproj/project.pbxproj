@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1038418714835DDF00B45220 /* SLUserTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1038418614835DDF00B45220 /* SLUserTableCellView.m */; };
 		109B59E51481577E00B3662B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 109B59E41481577E00B3662B /* Cocoa.framework */; };
 		109B59EF1481577E00B3662B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 109B59ED1481577E00B3662B /* InfoPlist.strings */; };
 		109B59F11481577E00B3662B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 109B59F01481577E00B3662B /* main.m */; };
@@ -34,10 +35,12 @@
 		10E1560D14815A1E00E25BD9 /* SLLoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1560C14815A1E00E25BD9 /* SLLoginWindowController.m */; };
 		10E156101481679500E25BD9 /* SLMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1560F1481679500E25BD9 /* SLMainWindowController.m */; };
 		10E15612148167A100E25BD9 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E15611148167A100E25BD9 /* MainWindow.xib */; };
-		10F4BC8C1482FF4C000C0754 /* SLGroupsTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F4BC8B1482FF4C000C0754 /* SLGroupsTableCellView.m */; };
+		10F4BC8C1482FF4C000C0754 /* SLGroupTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F4BC8B1482FF4C000C0754 /* SLGroupTableCellView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1038418514835DDF00B45220 /* SLUserTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLUserTableCellView.h; sourceTree = "<group>"; };
+		1038418614835DDF00B45220 /* SLUserTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLUserTableCellView.m; sourceTree = "<group>"; };
 		109B59E01481577E00B3662B /* ShareLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		109B59E41481577E00B3662B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		109B59E71481577E00B3662B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -92,8 +95,8 @@
 		10E1560E1481679500E25BD9 /* SLMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMainWindowController.h; sourceTree = "<group>"; };
 		10E1560F1481679500E25BD9 /* SLMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMainWindowController.m; sourceTree = "<group>"; };
 		10E15611148167A100E25BD9 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		10F4BC8A1482FF4C000C0754 /* SLGroupsTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLGroupsTableCellView.h; sourceTree = "<group>"; };
-		10F4BC8B1482FF4C000C0754 /* SLGroupsTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLGroupsTableCellView.m; sourceTree = "<group>"; };
+		10F4BC8A1482FF4C000C0754 /* SLGroupTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SLGroupTableCellView.h; sourceTree = "<group>"; };
+		10F4BC8B1482FF4C000C0754 /* SLGroupTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLGroupTableCellView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,8 +184,10 @@
 				10E1560E1481679500E25BD9 /* SLMainWindowController.h */,
 				10E1560F1481679500E25BD9 /* SLMainWindowController.m */,
 				10E15611148167A100E25BD9 /* MainWindow.xib */,
-				10F4BC8A1482FF4C000C0754 /* SLGroupsTableCellView.h */,
-				10F4BC8B1482FF4C000C0754 /* SLGroupsTableCellView.m */,
+				10F4BC8A1482FF4C000C0754 /* SLGroupTableCellView.h */,
+				10F4BC8B1482FF4C000C0754 /* SLGroupTableCellView.m */,
+				1038418514835DDF00B45220 /* SLUserTableCellView.h */,
+				1038418614835DDF00B45220 /* SLUserTableCellView.m */,
 			);
 			name = "Front-end";
 			sourceTree = "<group>";
@@ -328,7 +333,8 @@
 				109B5A3D1481584700B3662B /* SLSessionManager.m in Sources */,
 				10E1560D14815A1E00E25BD9 /* SLLoginWindowController.m in Sources */,
 				10E156101481679500E25BD9 /* SLMainWindowController.m in Sources */,
-				10F4BC8C1482FF4C000C0754 /* SLGroupsTableCellView.m in Sources */,
+				10F4BC8C1482FF4C000C0754 /* SLGroupTableCellView.m in Sources */,
+				1038418714835DDF00B45220 /* SLUserTableCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
