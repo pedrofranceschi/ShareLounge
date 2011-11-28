@@ -45,16 +45,30 @@
     SLGroupsTableCellView *cellView = [tableView makeViewWithIdentifier:@"GroupCell" owner:self];
     
     cellView.groupName.stringValue = [[groups objectAtIndex:row] objectForKey:@"name"];
-    cellView.torrentsCount.stringValue = [NSString stringWithFormat:@"%i torrents", [[[groups objectAtIndex:row] objectForKey:@"torrents"] count]];
-    cellView.usersCount.stringValue = [NSString stringWithFormat:@"%i members", [[[groups objectAtIndex:row] objectForKey:@"users"] count]];
+    
+    NSString *torrentsString;
+    int torrentsCount = [[[groups objectAtIndex:row] objectForKey:@"torrents"] count];
+    
+    if(torrentsCount == 1) {
+        torrentsString = @"torrent";
+    } else {
+        torrentsString = @"torrents";
+    }
+    
+    cellView.torrentsCount.stringValue = [NSString stringWithFormat:@"%i %@", torrentsCount, torrentsString];
+    
+    NSString *usersString;
+    int usersCount = [[[groups objectAtIndex:row] objectForKey:@"users"] count];
+    
+    if(usersCount == 1) {
+        usersString = @"user";
+    } else {
+        usersString = @"users";
+    }
+    
+    cellView.usersCount.stringValue = [NSString stringWithFormat:@"%i %@", usersCount, usersString];
     
     return cellView;
 }
-
-// - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
-// {
-//     return [[groups objectAtIndex:row] objectForKey:@"name"];
-// }
-
 
 @end
