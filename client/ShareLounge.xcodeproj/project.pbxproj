@@ -34,6 +34,7 @@
 		10E1560D14815A1E00E25BD9 /* SLLoginWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1560C14815A1E00E25BD9 /* SLLoginWindowController.m */; };
 		10E156101481679500E25BD9 /* SLMainWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 10E1560F1481679500E25BD9 /* SLMainWindowController.m */; };
 		10E15612148167A100E25BD9 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 10E15611148167A100E25BD9 /* MainWindow.xib */; };
+		10F4BC8C1482FF4C000C0754 /* SLGroupsTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 10F4BC8B1482FF4C000C0754 /* SLGroupsTableCellView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -91,6 +92,8 @@
 		10E1560E1481679500E25BD9 /* SLMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMainWindowController.h; sourceTree = "<group>"; };
 		10E1560F1481679500E25BD9 /* SLMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMainWindowController.m; sourceTree = "<group>"; };
 		10E15611148167A100E25BD9 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		10F4BC8A1482FF4C000C0754 /* SLGroupsTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLGroupsTableCellView.h; sourceTree = "<group>"; };
+		10F4BC8B1482FF4C000C0754 /* SLGroupsTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLGroupsTableCellView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -178,6 +181,8 @@
 				10E1560E1481679500E25BD9 /* SLMainWindowController.h */,
 				10E1560F1481679500E25BD9 /* SLMainWindowController.m */,
 				10E15611148167A100E25BD9 /* MainWindow.xib */,
+				10F4BC8A1482FF4C000C0754 /* SLGroupsTableCellView.h */,
+				10F4BC8B1482FF4C000C0754 /* SLGroupsTableCellView.m */,
 			);
 			name = "Front-end";
 			sourceTree = "<group>";
@@ -323,6 +328,7 @@
 				109B5A3D1481584700B3662B /* SLSessionManager.m in Sources */,
 				10E1560D14815A1E00E25BD9 /* SLLoginWindowController.m in Sources */,
 				10E156101481679500E25BD9 /* SLMainWindowController.m in Sources */,
+				10F4BC8C1482FF4C000C0754 /* SLGroupsTableCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

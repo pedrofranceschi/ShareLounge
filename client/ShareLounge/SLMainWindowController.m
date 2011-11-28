@@ -24,26 +24,37 @@
 }
 
 - (void)updateInformations {
-    NSLog(@"%s UPDATING INFOS ", _cmd);
     [serverRequests getGroups];
+    [progressIndicator startAnimation:self];
 }
 
-- (void)didGetGroupsWithError:(NSError *)_error response:(id)_response
+- (void)didGetGroupsWithError:(NSError *)_error response:(NSArray *)_groups
 {
-    NSLog(@"%s GOT GROUPS! error: %@", _cmd, _error);
-    NSLog(@"%s RESPONSE: %@", _cmd, _response);
-    NSLog(@"%s Now from persistency: %@", _cmd, [[[SLPersistencyManager alloc] init] objectForKey:@"groups" useKeyedArchive:YES]);
+    NSLog(@"%s reloading tableview ", _cmd);
+    groups = [_groups mutableCopy];
+    [groupsTableView reloadData];
+    [progressIndicator stopAnimation:self];
 }
 
-// Groups table view methods
+- (int)numberOfRowsInTableView:(NSTableView *)tableView
+{
+    return [groups count];
+}
 
-// - (int)numberOfRowsInTableView:(NSTableView *)tableView
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {    
+    SLGroupsTableCellView *cellView = [tableView makeViewWithIdentifier:@"GroupCell" owner:self];
+    
+    cellView.groupName.stringValue = [[groups objectAtIndex:row] objectForKey:@"name"];
+    cellView.torrentsCount.stringValue = [NSString stringWithFormat:@"%i torrents", [[[groups objectAtIndex:row] objectForKey:@"torrents"] count]];
+    cellView.usersCount.stringValue = [NSString stringWithFormat:@"%i members", [[[groups objectAtIndex:row] objectForKey:@"users"] count]];
+    
+    return cellView;
+}
+
+// - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row
 // {
-//     return [iPodVolumes count];
+//     return [[groups objectAtIndex:row] objectForKey:@"name"];
 // }
-// 
-// - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
-//     return [iPodVolumes objectAtIndex:row];
-// }
+
 
 @end

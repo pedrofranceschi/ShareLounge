@@ -8,15 +8,18 @@
 
 #import <Cocoa/Cocoa.h>
 #import "SLServerRequests.h"
+#import "SLGroupsTableCellView.h"
 
 @interface SLMainWindowController : NSWindowController {
     IBOutlet NSTableView *groupsTableView;
-    NSArray *groups;
+    IBOutlet NSProgressIndicator *progressIndicator;
+    NSMutableArray *groups;
     SLServerRequests *serverRequests;
 }
 
 - (void)updateInformations;
 
 @property (assign) IBOutlet NSTableView *groupsTableView;
+@property (assign) IBOutlet NSProgressIndicator *progressIndicator;
 
 @end
