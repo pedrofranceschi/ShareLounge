@@ -10,7 +10,14 @@
 
 @implementation SLTorrentTableCellView
 
-@synthesize name, creator, description, age;
+@synthesize name, creator, description, age, highlightBackground;
+
+- (void)drawRect:(NSRect)dirtyRect {
+    if(highlightBackground == 1) {
+        [[NSColor colorWithDeviceRed:0.85 green:0.85 blue:0.85 alpha:1.0] setFill];
+        NSRectFill(dirtyRect);
+    }
+}
 
 - (IBAction)delete:(id)sender {
     NSLog(@"%s ", _cmd);

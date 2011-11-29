@@ -121,6 +121,14 @@
         cellView.creator.stringValue = [NSString stringWithFormat:@"Added by %@", [[torrentInformations objectForKey:@"creator"] objectForKey:@"name"]];
         cellView.description.stringValue = [torrentInformations objectForKey:@"description"];
         
+        if(cellView.highlightBackground == 0) {
+            if(row % 2 == 0) {
+                cellView.highlightBackground = 1;
+            } else {
+                cellView.highlightBackground = 2;
+            }
+        }
+        
         return cellView;
     }
 }
