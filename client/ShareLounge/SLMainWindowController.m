@@ -18,6 +18,7 @@
 - (id)initWithWindowNibName:(NSString *)nibName {
     if(self = [super initWithWindowNibName:nibName]) {
         serverRequests = [[SLServerRequests alloc] initWithDelegate:self];
+        torrentsInformations = [[NSMutableArray alloc] init];
     }
     
     return self;
@@ -63,16 +64,19 @@
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
-    if([[[cellsInformations objectAtIndex:row] objectForKey:@"type"] isEqualToString:@"group"]) {
-        return 37;
-    } else { // user cell
-        return 20;
+    if(tableView == groupsTableView) {
+        if([[[cellsInformations objectAtIndex:row] objectForKey:@"type"] isEqualToString:@"group"]) {
+            return 37;
+        } else { // user cell
+            return 20;
+        }
+    } else if(tableView == torrentsTableView) {
+        return 85;
     }
 }
 
 - (void)didGetGroupsWithError:(NSError *)_error response:(NSArray *)_groups
 {
-    NSLog(@"%s reloading tableview ", _cmd);
     [progressIndicator stopAnimation:self];
     groups = [_groups mutableCopy];
     [self generateCellsInformationsArray];
@@ -81,45 +85,75 @@
 
 - (int)numberOfRowsInTableView:(NSTableView *)tableView
 {
-    return [cellsInformations count];
-}
-
-- (void)expandGroup:(int)group {
-    // [expandedGroupsIds addObject:[NSNumber numberWithInt:group]];
-    // [groupsTableView reloadData];
-    // [groupsTableView beginUpdates];
-    // NSLog(@"%s expanding for %i", _cmd, group);
-    // [groupsTableView insertRowsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(group+1, [[[groups objectAtIndex:group] objectForKey:@"users"] count])] withAnimation:NSTableViewAnimationSlideDown];
-    // [groupsTableView endUpdates];
-    // NSLog(@"%s did insert ", _cmd);
+    if(tableView == groupsTableView) {
+        return [cellsInformations count];
+    } else if(tableView == torrentsTableView) {
+        return [torrentsInformations count];
+    }
 }
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-    NSDictionary *cellInformations = [cellsInformations objectAtIndex:row];
-    
-    if([[cellInformations objectForKey:@"type"] isEqualToString:@"group"]) {
-        SLGroupTableCellView *cellView = [tableView makeViewWithIdentifier:@"GroupCell" owner:self];
+    if(tableView == groupsTableView) {
+        NSDictionary *cellInformations = [cellsInformations objectAtIndex:row];
         
-        cellView.groupName.stringValue = [cellInformations objectForKey:@"name"];
-        cellView.torrentsCount.stringValue = [cellInformations objectForKey:@"torrents"];
-        cellView.usersCount.stringValue = [cellInformations objectForKey:@"users"];
+        if([[cellInformations objectForKey:@"type"] isEqualToString:@"group"]) {
+            SLGroupTableCellView *cellView = [tableView makeViewWithIdentifier:@"GroupCell" owner:self];
+            
+            cellView.groupName.stringValue = [cellInformations objectForKey:@"name"];
+            cellView.torrentsCount.stringValue = [cellInformations objectForKey:@"torrents"];
+            cellView.usersCount.stringValue = [cellInformations objectForKey:@"users"];
+            
+            return cellView;
+        } else if([[cellInformations objectForKey:@"type"] isEqualToString:@"user"]) {
+            SLUserTableCellView *cellView = [tableView makeViewWithIdentifier:@"UserCell" owner:self];
+            
+            cellView.userName.stringValue = [cellInformations objectForKey:@"name"];
+            cellView.backgroundStyle = NSBackgroundStyleRaised;
+            
+            return cellView;
+        }
+    } else if(tableView == torrentsTableView) {
+        NSDictionary *torrentInformations = [torrentsInformations objectAtIndex:row];
         
-        return cellView;
-    } else if([[cellInformations objectForKey:@"type"] isEqualToString:@"user"]) {
-        SLUserTableCellView *cellView = [tableView makeViewWithIdentifier:@"UserCell" owner:self];
+        SLTorrentTableCellView *cellView = [tableView makeViewWithIdentifier:@"TorrentCell" owner:self];
         
-        cellView.userName.stringValue = [cellInformations objectForKey:@"name"];
-        cellView.backgroundStyle = NSBackgroundStyleRaised;
+        cellView.name.stringValue = [torrentInformations objectForKey:@"name"];
+        cellView.creator.stringValue = [NSString stringWithFormat:@"Added by %@", [[torrentInformations objectForKey:@"creator"] objectForKey:@"name"]];
+        cellView.description.stringValue = [torrentInformations objectForKey:@"description"];
         
         return cellView;
     }
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
-    if([[[cellsInformations objectAtIndex:rowIndex] objectForKey:@"type"] isEqualToString:@"group"]) {
-        selectedGroup = [[[cellsInformations objectAtIndex:rowIndex] objectForKey:@"index"] intValue];
-        return YES;
+- (void)updateTorrentsTableView {
+    torrentsInformations = [[NSMutableArray alloc] init];
+    for(NSDictionary *_torrent in [[groups objectAtIndex:selectedGroup] objectForKey:@"torrents"]) {
+        NSMutableDictionary *torrent = [_torrent mutableCopy];
+        
+        // searches for creator data in groups dictionary
+        for(NSDictionary *userInformations in [[groups objectAtIndex:selectedGroup] objectForKey:@"users"]) {
+            if([[userInformations objectForKey:@"id"] intValue] == [[torrent objectForKey:@"creatorId"] intValue]) {
+                [torrent setObject:userInformations forKey:@"creator"];
+                break;
+            }
+        }
+        
+        [torrentsInformations addObject:torrent];
     }
+    
+    [torrentsTableView reloadData];
+}
+
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)rowIndex {
+    if(tableView == groupsTableView) {
+        if([[[cellsInformations objectAtIndex:rowIndex] objectForKey:@"type"] isEqualToString:@"group"]) {
+            selectedGroup = [[[cellsInformations objectAtIndex:rowIndex] objectForKey:@"index"] intValue];
+            [self updateTorrentsTableView];
+            
+            return YES;
+        }
+    }
+    
     return NO;
 }
 

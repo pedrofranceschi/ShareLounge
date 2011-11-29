@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		1038418714835DDF00B45220 /* SLUserTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1038418614835DDF00B45220 /* SLUserTableCellView.m */; };
+		1038418A1483D04D00B45220 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 103841891483D04D00B45220 /* QuartzCore.framework */; };
+		1038418D14843FA700B45220 /* SLTorrentTableCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1038418C14843FA600B45220 /* SLTorrentTableCellView.m */; };
 		109B59E51481577E00B3662B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 109B59E41481577E00B3662B /* Cocoa.framework */; };
 		109B59EF1481577E00B3662B /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 109B59ED1481577E00B3662B /* InfoPlist.strings */; };
 		109B59F11481577E00B3662B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 109B59F01481577E00B3662B /* main.m */; };
@@ -41,6 +43,9 @@
 /* Begin PBXFileReference section */
 		1038418514835DDF00B45220 /* SLUserTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLUserTableCellView.h; sourceTree = "<group>"; };
 		1038418614835DDF00B45220 /* SLUserTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLUserTableCellView.m; sourceTree = "<group>"; };
+		103841891483D04D00B45220 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		1038418B14843FA600B45220 /* SLTorrentTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLTorrentTableCellView.h; sourceTree = "<group>"; };
+		1038418C14843FA600B45220 /* SLTorrentTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLTorrentTableCellView.m; sourceTree = "<group>"; };
 		109B59E01481577E00B3662B /* ShareLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ShareLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		109B59E41481577E00B3662B /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		109B59E71481577E00B3662B /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -95,7 +100,7 @@
 		10E1560E1481679500E25BD9 /* SLMainWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLMainWindowController.h; sourceTree = "<group>"; };
 		10E1560F1481679500E25BD9 /* SLMainWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLMainWindowController.m; sourceTree = "<group>"; };
 		10E15611148167A100E25BD9 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
-		10F4BC8A1482FF4C000C0754 /* SLGroupTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; path = SLGroupTableCellView.h; sourceTree = "<group>"; };
+		10F4BC8A1482FF4C000C0754 /* SLGroupTableCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLGroupTableCellView.h; sourceTree = "<group>"; };
 		10F4BC8B1482FF4C000C0754 /* SLGroupTableCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLGroupTableCellView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -104,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1038418A1483D04D00B45220 /* QuartzCore.framework in Frameworks */,
 				109B59E51481577E00B3662B /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -114,6 +120,7 @@
 		109B59D51481577D00B3662B = {
 			isa = PBXGroup;
 			children = (
+				103841891483D04D00B45220 /* QuartzCore.framework */,
 				109B59EA1481577E00B3662B /* ShareLounge */,
 				109B59E31481577E00B3662B /* Frameworks */,
 				109B59E11481577E00B3662B /* Products */,
@@ -188,6 +195,8 @@
 				10F4BC8B1482FF4C000C0754 /* SLGroupTableCellView.m */,
 				1038418514835DDF00B45220 /* SLUserTableCellView.h */,
 				1038418614835DDF00B45220 /* SLUserTableCellView.m */,
+				1038418B14843FA600B45220 /* SLTorrentTableCellView.h */,
+				1038418C14843FA600B45220 /* SLTorrentTableCellView.m */,
 			);
 			name = "Front-end";
 			sourceTree = "<group>";
@@ -335,6 +344,7 @@
 				10E156101481679500E25BD9 /* SLMainWindowController.m in Sources */,
 				10F4BC8C1482FF4C000C0754 /* SLGroupTableCellView.m in Sources */,
 				1038418714835DDF00B45220 /* SLUserTableCellView.m in Sources */,
+				1038418D14843FA700B45220 /* SLTorrentTableCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

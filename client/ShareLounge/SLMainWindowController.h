@@ -10,20 +10,20 @@
 #import "SLServerRequests.h"
 #import "SLGroupTableCellView.h"
 #import "SLUserTableCellView.h"
+#import "SLTorrentTableCellView.h"
 
 @interface SLMainWindowController : NSWindowController {
-    IBOutlet NSTableView *groupsTableView;
+    IBOutlet NSTableView *groupsTableView, *torrentsTableView;
     IBOutlet NSProgressIndicator *progressIndicator;
-    NSMutableArray *groups;
+    NSMutableArray *groups, *cellsInformations, *torrentsInformations;
     SLServerRequests *serverRequests;
-    NSMutableArray *cellsInformations;
     int selectedGroup;
 }
 
 - (void)updateInformations;
 - (void)expandGroup:(int)group;
 
-@property (assign) IBOutlet NSTableView *groupsTableView;
+@property (assign) IBOutlet NSTableView *groupsTableView, *torrentsTableView;
 @property (assign) IBOutlet NSProgressIndicator *progressIndicator;
 
 @end

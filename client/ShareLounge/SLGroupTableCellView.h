@@ -11,8 +11,10 @@
 
 @interface SLGroupTableCellView : NSTableCellView {
     IBOutlet NSTextField *groupName, *torrentsCount, *usersCount;
+    // IBOutlet NSView *backgroundView;
 }
 
 @property (strong, nonatomic) NSTextField *groupName, *torrentsCount, *usersCount;
+// @property (strong, nonatomic) NSView *backgroundView;
 
 @end
